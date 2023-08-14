@@ -41,4 +41,9 @@ public class Enemy : MonoBehaviour
         skeletonAnimation.state.AddAnimation(1, "idle", true, 0);
         speed = 0f;
     }
+
+    private void OnDestroy()
+    {
+        AudioManager.Intance.PlaySFX("EnemyOnDeath");
+    }
 }

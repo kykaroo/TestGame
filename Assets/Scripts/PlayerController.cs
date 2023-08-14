@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
                 readyToShoot = false;
                 skeletonAnimation.loop = false;
                 skeletonAnimation.state.AddAnimation(2, "shoot", false, 0);
+                AudioManager.Intance.PlaySFX("Shoot");
                 Destroy(hit.collider.gameObject);
                 Invoke(nameof(ResetShot),reloadTime);
             }
