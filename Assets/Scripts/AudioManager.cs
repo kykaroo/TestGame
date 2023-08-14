@@ -1,26 +1,16 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Intance;
+    public static AudioManager Instance;
 
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
 
     private void Awake()
     {
-        if (Intance == null)
-        {
-            Intance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     private void Start()
@@ -28,9 +18,9 @@ public class AudioManager : MonoBehaviour
         PlayMusic("Theme");
     }
 
-    public void PlayMusic(string name)
+    public void PlayMusic(string musicName)
     {
-        Sound s = Array.Find(musicSounds, x => x.name == name);
+        Sound s = Array.Find(musicSounds, x => x.name == musicName);
 
         if (s == null)
         {
@@ -43,9 +33,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(string name)
+    public void PlaySfx(string sfxName)
     {
-        Sound s = Array.Find(sfxSounds, x => x.name == name);
+        var s = Array.Find(sfxSounds, x => x.name == sfxName);
 
         if (s == null)
         {
@@ -56,5 +46,25 @@ public class AudioManager : MonoBehaviour
             sfxSource.clip = s.clip;
             sfxSource.Play();
         }
+    }
+
+    public void ToggleMusic(bool musicToggle)
+    {
+        musicSource.mute = !musicToggle;
+    }
+
+    public void ToggleSfx(bool sfxToggle)
+    {
+        sfxSource.mute = !sfxToggle;
+    }
+
+    public void MusicVolume(float volume)
+    {
+        musicSource.volume = volume;
+    }
+
+    public void SfxVolume(float volume)
+    {
+        sfxSource.volume = volume;
     }
 }

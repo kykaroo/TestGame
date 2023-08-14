@@ -1,4 +1,3 @@
-using System;
 using Spine.Unity;
 using UnityEngine;
 
@@ -44,6 +43,6 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        AudioManager.Intance.PlaySFX("EnemyOnDeath");
+        AudioManager.Instance.PlaySfx("EnemyOnDeath");
     }
 }

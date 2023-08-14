@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] internal SkeletonAnimation skeletonAnimation;
     [SerializeField] private float reloadTime = 1f;
+    [SerializeField] private ParticleSystem muzzle;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float bulletSpeed = 5f;
 
     private bool readyToShoot;
     
@@ -24,7 +27,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {
+    { 
         if (Input.GetMouseButtonDown(0) && readyToShoot) Shoot();
     }
 
@@ -35,9 +38,10 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.TryGetComponent(out Enemy enemy))
             {
                 readyToShoot = false;
-                skeletonAnimation.loop = false;
-                skeletonAnimation.state.AddAnimation(2, "shoot", false, 0);
-                AudioManager.Intance.PlaySFX("Shoot");
+                skeletonAnimation.state.AddAnimation(0, "shoot", false, 0).TimeScale = 1.5f;
+                muzzle.Play();
+                AudioManager.Instance.PlaySfx("Shoot");
+
                 Destroy(hit.collider.gameObject);
                 Invoke(nameof(ResetShot),reloadTime);
             }
