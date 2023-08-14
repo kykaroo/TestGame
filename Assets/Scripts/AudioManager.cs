@@ -3,24 +3,17 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
-
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
+    
     private void Start()
     {
         PlayMusic("Theme");
     }
 
-    public void PlayMusic(string musicName)
+    private void PlayMusic(string musicName)
     {
-        Sound s = Array.Find(musicSounds, x => x.name == musicName);
+        var s = Array.Find(musicSounds, x => x.name == musicName);
 
         if (s == null)
         {

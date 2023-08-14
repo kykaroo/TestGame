@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverWindow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Button tryAgainButton;
+ 
+    private EventManager eventManager;
+    private PlayerController playerController;
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(EventManager manager)
     {
-        
+        manager.OnDefeat += () => gameObject.SetActive(true);
+        manager.OnRestart += () => gameObject.SetActive(false);
+
+        tryAgainButton.onClick.AddListener(manager.RestartLevel);
     }
 }

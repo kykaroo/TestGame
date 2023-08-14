@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +7,19 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float enemySpawnInterval = 1f;
-    public List<Enemy> enemyList;
 
+    private AudioManager audioManager;
+    
+    public List<Enemy> enemyList;
+    
     private void Awake()
     {
         enemyList = new();
+    }
+    
+    public void Initialize(AudioManager manager)
+    {
+        audioManager = manager;
     }
 
     private void Start()
@@ -24,8 +31,9 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(enemySpawnInterval);
         enemySpawnInterval = Random.Range(1f, 2f);
-        GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        enemyList.Add(enemy.GetComponent<Enemy>());
+        Enemy enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity).GetComponent<Enemy>();
+        enemy.Initialize(audioManager);
+        enemyList.Add(enemy);
         StartCoroutine(Spawn());
     }
 

@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VictoryWindow : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Button playAgainButton;
+    
+    private EventManager eventManager;
+    
+    
+    public void Initialize(EventManager manager)
     {
+        manager.OnVictory += () => gameObject.SetActive(true);
+        manager.OnRestart += () => gameObject.SetActive(false);
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        playAgainButton.onClick.AddListener(manager.RestartLevel);
     }
 }

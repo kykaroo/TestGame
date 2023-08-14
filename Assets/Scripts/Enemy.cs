@@ -3,8 +3,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public SkeletonAnimation skeletonAnimation;
     [SerializeField] private float speed;
+    
+    private AudioManager audioManager;
+    
+    public SkeletonAnimation skeletonAnimation;
+    
+    public void Initialize(AudioManager manager)
+    {
+        audioManager = manager;
+    }
 
     private void Start()
     {
@@ -40,9 +48,15 @@ public class Enemy : MonoBehaviour
         skeletonAnimation.state.AddAnimation(1, "idle", true, 0);
         speed = 0f;
     }
-
-    private void OnDestroy()
+    
+    public void Die()
     {
-        AudioManager.Instance.PlaySfx("EnemyOnDeath");
+        Destroy(gameObject);
+        audioManager.PlaySfx("EnemyOnDeath");
+    }
+
+    public void DestroyEnemy()
+    {
+        Destroy(gameObject);
     }
 }

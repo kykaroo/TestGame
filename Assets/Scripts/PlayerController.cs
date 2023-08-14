@@ -1,5 +1,6 @@
 using System;
 using Spine.Unity;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,8 +10,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem muzzle;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 5f;
-
-    private bool readyToShoot;
+    [SerializeField] private TextMeshProUGUI reloadTimerText;
+    
+    private AudioManager audioManager;
+    private InputManager inputManager;
+    private EventManager eventManager;
+    
+    private bool onPause;
+    private bool onVictoryOrDefeatScreen;
+    
+    public float reloadTimer;
+    public bool readyToShoot;
     
     public event Action OnEnemyCollision;
     public event Action OnVictoryCollision;
@@ -20,6 +30,18 @@ public class PlayerController : MonoBehaviour
         readyToShoot = true;
         StartWalkAnimation();
     }
+    
+    public void Initialize(MenuManager menu, AudioManager audio, InputManager input, EventManager manager, PauseService pause)
+    {
+        audioManager = audio;
+        inputManager = input;
+        eventManager = manager;
+        
+        inputManager.OnMouseButtonClicked += TryToShoot;
+        pause.OnPause += b => onPause = b;
+        eventManager.OnVictoryOrDefeatScreen += b => onVictoryOrDefeatScreen = b;
+        
+    }
 
     public void StartWalkAnimation()
     {
@@ -27,8 +49,28 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    { 
-        if (Input.GetMouseButtonDown(0) && readyToShoot) Shoot();
+    {
+        if (onPause) return;
+        
+        ShootingTimer();
+    }
+
+    private void ShootingTimer()
+    {
+        reloadTimer -= Time.deltaTime;
+        if (reloadTimer <= 0)
+        {
+            readyToShoot = true;
+            reloadTimer = 0;
+        }
+        
+        reloadTimerText.text = Math.Round(reloadTimer, 2).ToString();
+    }
+    
+    private void TryToShoot()
+    {
+        if (readyToShoot && !onPause && !onVictoryOrDefeatScreen)
+            Shoot();
     }
 
     private void Shoot()
@@ -38,18 +80,14 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.TryGetComponent(out Enemy enemy))
             {
                 readyToShoot = false;
+                reloadTimer = reloadTime;
+                
                 skeletonAnimation.state.AddAnimation(0, "shoot", false, 0).TimeScale = 1.5f;
                 muzzle.Play();
-                AudioManager.Instance.PlaySfx("Shoot");
+                audioManager.PlaySfx("Shoot");
 
-                Destroy(hit.collider.gameObject);
-                Invoke(nameof(ResetShot),reloadTime);
+                hit.collider.gameObject.GetComponent<Enemy>().Die();
             }
-    }
-
-    private void ResetShot()
-    {
-        readyToShoot = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

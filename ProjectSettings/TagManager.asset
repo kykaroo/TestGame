@@ -38,15 +38,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: SkyGround
+    uniqueID: 2478116167
+    locked: 0
+  - name: BackgroundLayer
     uniqueID: 194364411
     locked: 0
-  - name: Middleground
-    uniqueID: 2511866627
-    locked: 0
-  - name: Foreground
-    uniqueID: 2001229683
+  - name: PropsGround
+    uniqueID: 1418073827
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PlayerGroundLayer
+    uniqueID: 2511866627
+    locked: 0
+  - name: FogLayer
+    uniqueID: 2438639539
+    locked: 0
+  - name: GroundLayer
+    uniqueID: 3168861417
+    locked: 0
+  - name: ForegroundLayer
+    uniqueID: 2001229683
     locked: 0
