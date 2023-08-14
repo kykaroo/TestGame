@@ -44,6 +44,9 @@ TagManager:
   - name: BackgroundLayer
     uniqueID: 194364411
     locked: 0
+  - name: CloudsLayer
+    uniqueID: 3269674983
+    locked: 0
   - name: PropsGround
     uniqueID: 1418073827
     locked: 0
