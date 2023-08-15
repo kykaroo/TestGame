@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntryPoint : MonoBehaviour
 {
     [SerializeField] private MenuManager menuManager;
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private BackgroundController backgroundController;
+    [FormerlySerializedAs("backgroundController")] [SerializeField] private EnvironmentController environmentController;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private EnemySpawner enemySpawner;
     
@@ -19,14 +20,14 @@ public class EntryPoint : MonoBehaviour
         
         menuManager.Initialize(audioManager, eventManager, pauseService);
         enemySpawner.Initialize(audioManager);
-        playerController.Initialize(menuManager, audioManager, inputManager, eventManager, pauseService);
-        eventManager.Initialize(enemySpawner, backgroundController, playerController);
+        playerController.Initialize(audioManager, inputManager, eventManager, pauseService);
+        eventManager.Initialize(enemySpawner, environmentController, playerController);
         pauseService.Initialize(inputManager, menuManager.PauseWindow);
     }
 
 
     public void Start()
     {
-        backgroundController.needMove = true;
+        environmentController.needMove = true;
     }
 }

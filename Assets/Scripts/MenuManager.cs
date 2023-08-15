@@ -13,10 +13,10 @@ public class MenuManager : MonoBehaviour
     private bool onVictoryOrDefeatScreen;
     
 
-    public void Initialize(AudioManager audio, EventManager manager, PauseService service)
+    public void Initialize(AudioManager audio, EventManager manager, PauseService pause)
     {
-        pauseWindow.Initialize(audio, service);
-        gameOverWindow.Initialize(manager);
-        victoryWindow.Initialize(manager);
+        pauseWindow.Initialize(audio, pause);
+        gameOverWindow.Initialize(manager, pause);
+        victoryWindow.Initialize(manager, pause);
     }
 }

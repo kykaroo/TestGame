@@ -9,19 +9,16 @@ public class PauseWindow : MonoBehaviour
     [SerializeField] private Toggle toggleMusic;
     [SerializeField] private Toggle toggleSfx;
     [SerializeField] private Button continueButton;
-    private AudioManager audioManager;
 
     public event Action OnContinueGame;
     
     public void Initialize(AudioManager manager, PauseService pause)
     {
-        audioManager = manager;
-        
         continueButton.onClick.AddListener(() => OnContinueGame?.Invoke());
-        toggleMusic.onValueChanged.AddListener(audioManager.ToggleMusic);
-        toggleSfx.onValueChanged.AddListener(audioManager.ToggleSfx);
-        musicSlider.onValueChanged.AddListener(audioManager.MusicVolume);
-        sfxSlider.onValueChanged.AddListener(audioManager.SfxVolume);
+        toggleMusic.onValueChanged.AddListener(manager.ToggleMusic);
+        toggleSfx.onValueChanged.AddListener(manager.ToggleSfx);
+        musicSlider.onValueChanged.AddListener(manager.MusicVolume);
+        sfxSlider.onValueChanged.AddListener(manager.SfxVolume);
         pause.OnPause += gameObject.SetActive;
     }
 }

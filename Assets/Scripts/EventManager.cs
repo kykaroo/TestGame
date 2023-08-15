@@ -5,7 +5,7 @@ using Object = System.Object;
 public class EventManager
 {
     private EnemySpawner enemySpawner;
-    private BackgroundController backgroundController;
+    private EnvironmentController environmentController;
     private PlayerController playerController;
 
     private bool onVictoryOrDefeatScreen;
@@ -15,10 +15,10 @@ public class EventManager
     public event Action OnRestart;
     public event Action<bool> OnVictoryOrDefeatScreen;
 
-    public void Initialize(EnemySpawner spawner, BackgroundController background, PlayerController player)
+    public void Initialize(EnemySpawner spawner, EnvironmentController environment, PlayerController player)
     {
         enemySpawner = spawner;
-        backgroundController = background;
+        environmentController = environment;
         playerController = player;
 
         playerController.OnEnemyCollision += GameOverEvent;
@@ -28,7 +28,7 @@ public class EventManager
     private void GameOverEvent()
     {
         enemySpawner.gameObject.SetActive(false);
-        backgroundController.needMove = false;
+        environmentController.needMove = false;
         enemySpawner.enemyList.RemoveAll(t => t == null);
         
         foreach (var enemy in enemySpawner.enemyList)
@@ -46,7 +46,7 @@ public class EventManager
     private void VictoryEvent()
     {
         enemySpawner.gameObject.SetActive(false);
-        backgroundController.needMove = false;
+        environmentController.needMove = false;
         enemySpawner.enemyList.RemoveAll(t => t == null);
         
         foreach (var enemy in enemySpawner.enemyList)
@@ -78,8 +78,8 @@ public class EventManager
         playerController.skeletonAnimation.ClearState();
         playerController.StartWalkAnimation();
         
-        backgroundController.ResetBackground();
-        backgroundController.needMove = true;
+        environmentController.ResetBackground();
+        environmentController.needMove = true;
 
         OnRestart?.Invoke();
         OnVictoryOrDefeatScreen?.Invoke(false);
