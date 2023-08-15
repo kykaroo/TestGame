@@ -73,7 +73,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1783100669
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 70
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &694727448755709501
@@ -113,7 +113,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: idle
+  _animationName: 
   loop: 1
   timeScale: 1
 --- !u!33 &694727448755709500
@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa7f91e1d6f01e48914d9ae44c54661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonAnimation: {fileID: 694727448755709501}
   speed: 10
+  skeletonAnimation: {fileID: 694727448755709501}
 --- !u!61 &5266522936204054708
 BoxCollider2D:
   m_ObjectHideFlags: 0

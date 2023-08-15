@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
                
                 muzzle.Play();
                 // В настройках префаба взрыва он автоматически активируется при создании и уничтожается после конца анимации
-                Instantiate(explosionPrefab, hit.transform.position, Quaternion.identity);
+                Instantiate(explosionPrefab, hit.point, Quaternion.identity);
                     
                 audioManager.PlaySfx("Shoot");
 
